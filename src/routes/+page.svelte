@@ -17,28 +17,59 @@
     import 'hijri-date';
 
 
-    moment.locale('id');
-
-    const arabic= new moment();
-    arabic.locale('ar');
-
-    const athan = (async () => {
-        try {
-            const response = await fetch('https://api.aladhan.com/v1/timingsByAddress/22-06-2023?address=Tangerang,ID&method=8&tune=2,3,4,5,2,3,4,5,-3');
-            let data =  await response.json();
-            // console.log(data);
-            return data;
-        } catch (error) {
-            return false;
-        }
-        
-    })()
-    
-
+   
     onMount(async () => {
         import('$lib/uikit.js');
         import('$lib/uikit-icons.js');
 
+        const now = new Date();
+        const local_time= new moment();
+
+       
+
+        const geo = window.$.ajax({
+            url: "https://geolocation-db.com/jsonp",
+            jsonpCallback: "callback",
+            dataType: "jsonp",
+            success: function(location) {
+                return location;
+                // $('#country').html(location.country_name);
+                // $('#state').html(location.state);
+                // $('#city').html(location.city);
+                // $('#latitude').html(location.latitude);
+                // $('#longitude').html(location.longitude);
+                // $('#ip').html(location.IPv4);
+            },
+            error: function (error) {
+                console.log(error);
+                return false;
+            }
+        });
+
+
+        const athan = (async () => {
+            
+            try {
+
+                let location = await geo;
+
+                if (location) {
+                    
+                    local_time.locale(location.country_code || 'id');
+
+                    // const response = await fetch('https://api.aladhan.com/v1/timingsByAddress/22-06-2023?address=Tangerang,ID&method=8&tune=2,3,4,5,2,3,4,5,-3');
+                    const response = await fetch('https://api.aladhan.com/v1/timingsByCity/'+ moment(now).format('DD-MM-YYYY')+'?city='+ location.city + '&country='+ location.country_name +'&method=8&tune=2,3,4,5,2,3,4,5,-3');
+                    console.log(location, local_time);
+                    return response.json();
+                }
+            
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+            
+        })()
+        
         let sholat = await athan;
         
         // console.log(sholat.data);
@@ -49,6 +80,7 @@
         document.getElementById('magrib').innerHTML = sholat.data.timings.Maghrib;
         document.getElementById('isya').innerHTML = sholat.data.timings.Isha;
 
+       
         
         setInterval(updateClock, 1000);
         window.$('#date').hijriDate({
@@ -80,6 +112,9 @@
     });
 
     function updateClock() {
+        const arabic= new moment();
+        arabic.locale('ar');
+        
         const day = moment().format('dddd')
         const date = moment().format('ll')
         const date_hijr = arabic.format('ll')
