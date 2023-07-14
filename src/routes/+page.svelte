@@ -94,7 +94,7 @@
         });
         // window.addEventListener('load', Marquee('.marquee', 1))
         var widths = window.$('.marquee').width()
-        var duration = widths * 18;
+        var duration = widths * 15;
 
         window.$('.marquee').marquee({
             //speed in milliseconds of the marquee
@@ -114,7 +114,7 @@
     function updateClock() {
         const arabic= new moment();
         arabic.locale('ar');
-        
+
         const day = moment().format('dddd')
         const date = moment().format('ll')
         const date_hijr = arabic.format('ll')
