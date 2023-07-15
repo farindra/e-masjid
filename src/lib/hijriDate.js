@@ -4,7 +4,9 @@
 * NPM: https://www.npmjs.com/package/jquery-hijri-date
 * GitHub: https://github.com/MuhammadMabrouk/jquery-hijri-date
 */
-j.fn.hijriDate = function (options = {}) {
+
+
+$.fn.hijriDate = function (options = {}) {
     const defaultOptions = {
       showWeekDay: typeof options.showWeekDay === 'undefined' ? true : options.showWeekDay,
       showGregDate: typeof options.showGregDate === 'undefined' ? false : options.showGregDate,

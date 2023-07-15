@@ -1,1 +1,1 @@
-import { PASSPHRASE } from '$env/static/private';
+export const ssr = false;

@@ -3,9 +3,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/css/uikit.min.css" />
 
     <!-- UIkit JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/js/hijriDate.js"></script>
-    <script type='text/javascript' src='//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js'></script>
+    <!-- <script type='text/javascript' src='//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js'></script> -->
 
 
 </svelte:head>
@@ -14,10 +12,12 @@
     import { onMount } from 'svelte';
     import moment from 'moment/min/moment-with-locales';
     // import {moment as mm} from 'moment-hijri/moment-hijri';
+    import jQuery from 'jquery';
+
     import 'hijri-date';
+    // import '../lib/hijriDate';
+    import '../lib/jquery.marquee';
 
-
-   
     onMount(async () => {
         import('$lib/uikit.js');
         import('$lib/uikit-icons.js');
@@ -26,8 +26,7 @@
         const local_time= new moment();
 
        
-
-        const geo = window.$.ajax({
+        const geo = jQuery.ajax({
             url: "https://geolocation-db.com/jsonp",
             jsonpCallback: "callback",
             dataType: "jsonp",
@@ -45,6 +44,7 @@
                 return false;
             }
         });
+       
 
 
         const athan = (async () => {
@@ -83,25 +83,25 @@
        
         
         setInterval(updateClock, 1000);
-        window.$('#date').hijriDate({
-            showWeekDay: false,
-            showGregDate: true,
-            separator: '&nbsp;|&nbsp;',
-            weekDayLang: 'id',
-            hijriLang: 'id',
-            gregLang: 'id',
-            correction: +1
-        });
+        // jQuery('#date').hijriDate({
+        //     showWeekDay: false,
+        //     showGregDate: true,
+        //     separator: '&nbsp;|&nbsp;',
+        //     weekDayLang: 'id',
+        //     hijriLang: 'id',
+        //     gregLang: 'id',
+        //     correction: +1
+        // });
         // window.addEventListener('load', Marquee('.marquee', 1))
-        var widths = window.$('.marquee').width()
+        var widths = jQuery('.marquee').width()
         var duration = widths * 15;
 
-        window.$('.marquee').marquee({
+        jQuery('.marquee').marquee({
             //speed in milliseconds of the marquee
             duration: duration, // for responsive/fluid use
             //duration: 8000, // for fixed container
             //gap in pixels between the tickers
-            gap: window.$('.marquee').width(),
+            gap: jQuery('.marquee').width(),
             //span in milliseconds before the marquee will start animating
             delayBeforeStart: 0,
             //'left' or 'right'
